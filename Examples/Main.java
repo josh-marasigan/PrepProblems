@@ -128,6 +128,41 @@ public class Main {
 		}
 		return count;
 	}
+	
+	/* Given a string, sort it in decreasing order based on the frequency of characters. */
+	public String frequencySort(String s) {
+        
+        char[] chars = s.toCharArray();
+        HashMap<Character,Integer> map = new HashMap<Character, Integer>();
+        for(char ch : chars) {
+            Character c = new Character(ch);
+            if(map.containsKey(c)) {
+                Integer n = new Integer(map.get(c) + 1);
+                map.put(c,n);
+            }
+            else {
+                map.put(c, new Integer(1));
+            }
+        }
+        
+        Set<Map.Entry<Character, Integer>> set = map.entrySet();
+        List<Map.Entry<Character, Integer>> list = new ArrayList<Map.Entry<Character, Integer>>(set);
+        
+        Collections.sort(list, new Comparator<Map.Entry<Character, Integer>>() {
+            public int compare(Map.Entry<Character, Integer> n1, Map.Entry<Character, Integer> n2) {
+                return(n2.getValue().compareTo(n1.getValue()));
+            }   
+        });
+        
+        StringBuffer ret = new StringBuffer("");
+        for(Map.Entry<Character, Integer> entry : list) {
+            for(int n = 0; n < entry.getValue(); n++) {
+                ret.append(entry.getKey());
+            }
+        }
+        
+        return ret.toString();
+    }
 }
 
 
