@@ -1,0 +1,112 @@
+// Update Ubuntu
+sudo apt dist-upgrade		-or-
+sudo apt update && sudo apt dist-upgrade
+
+// Color Terminal
+ls -la ~/ | more 			// See hidden files
+vi ~/.bashrc				// Edit below code to bashrc
+export PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\]"
+
+echo export PATH=/home/chrx/Documents/461SProjects/Project3/utils:$PATH > ~/.bashrc
+echo export PATH=/home/chrx/Documents/OSF16project2/utils:$PATH > ~/.bashrc
+
+home. ~/.bashrc
+
+// Debug
+b syscall.c:syscall_init == breakpoint
+b syscall.c:syscall_handler
+b syscall.c:halt
+c == continue
+n == single step
+
+// 
+First terminal
+make tests/userprog/halt.result
+rm make tests/userprog/halt.result (if make alrdy has)
+
+pintos --gdb -v -k -T 60 --qemu --filesys-size=2 -p tests/userprog/halt -a halt -- -q -f run halt
+
+pintos --gdb -v -k -T 60 --qemu --filesys-size=2 -p tests/userprog/args-none -a args-none -- -q -f run args-none
+
+Second terminal
+pintos-gdb kernel.o
+(gdb) debugpintos
+
+// for ddd //
+pintos ddd --gdb -v -k -T 60 --qemu --filesys-size=2 -p tests/userprog/args-none.o -a 
+args-none -- -q -f run args-none
+
+// second terminal
+ddd --gdb --debugger pintos-gdb kernel.o
+
+debugpintos // once DDD is open
+
+//
+p *args@len
+p *args@3
+print var
+
+make tests/userprog/args-many.result
+pintos -v -k -T 60 --qemu  --filesys-size=2 -p tests/userprog/args-many -a args-many -- -q  -f run 'args-many a b c d e f g h i j k l m n o p q r s t u v'
+
+
+pass tests/threads/print-name
+
+pass tests/threads/alarm-single
+pass tests/threads/alarm-multiple
+pass tests/threads/alarm-simultaneous
+pass tests/threads/alarm-priority
+pass tests/threads/alarm-zero
+pass tests/threads/alarm-negative
+
+pass tests/threads/priority-change
+
+FAIL tests/threads/priority-donate-one
+FAIL tests/threads/priority-donate-multiple
+FAIL tests/threads/priority-donate-multiple2
+
+pass tests/threads/priority-donate-nest
+FAIL tests/threads/priority-donate-sema
+FAIL tests/threads/priority-donate-lower
+
+pass tests/threads/priority-fifo
+pass tests/threads/priority-preempt
+FAIL tests/threads/priority-sema
+FAIL tests/threads/priority-condvar
+FAIL tests/threads/priority-donate-chain
+
+FAIL tests/threads/mlfqs-load-1
+FAIL tests/threads/mlfqs-load-60
+FAIL tests/threads/mlfqs-load-avg
+FAIL tests/threads/mlfqs-recent-1
+pass tests/threads/mlfqs-fair-2
+pass tests/threads/mlfqs-fair-20
+FAIL tests/threads/mlfqs-nice-2
+FAIL tests/threads/mlfqs-nice-10
+FAIL tests/threads/mlfqs-block
+
+pass tests/threads/print-name
+
+15 of 28 tests failed.
+
+1. Alarm Clock Functionality
+2. Static Priority Scheduling (No MLFQ)
+3. Priority Donation
+
+DDD COMMANDS TO KNOW:
+
+frame				:	shows current step and line
+where				:	line number currently executed
+list				:	view source
+set print array on 	:	pretty arrays
+
+child, before dying, gets blocked
+parent receives child's status
+child gets unblocked and then finishes dying
+
+/home/chrx/Documents/Projects/project2OS/proj_2/userprog/build/kernel.bin
+
+/* 	Tests to run faster (Running concurrent Pintos tests) 
+	Replace 2 with number of concurrent tasks you wish to run. */
+make -j 2 check
+
